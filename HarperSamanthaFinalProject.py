@@ -56,7 +56,7 @@ class MenuWindow:
                                        fg=color_font, font=sub_label_font)
         slawpy_sliders_details.grid(row=5, column=2, columnspan=2, sticky="NSEW")
         # beef brisket
-        beef_brisket_sliders_label = Label(self.menu_frame, text="BBQ Beef Brisket - 11.00", fg=color_font,
+        beef_brisket_sliders_label = Label(self.menu_frame, text="BBQ Beef Brisket Sliders - 11.00", fg=color_font,
                                            font=menu_font)
         beef_brisket_sliders_label.grid(row=6, column=0, columnspan=2, sticky="NSEW")
         brisket_sliders_details = Label(self.menu_frame, text="Low and slow-smoked BBQ Brisket\nserved slider style  ",
@@ -363,13 +363,13 @@ class OrderNowWindow:
                             "No Sandwich",
                             "BBQ Pulled Pork",
                             "Slaw-py Sliders",
-                            "BBQ Beef Brisket",
+                            "BBQ Beef Brisket Sliders",
                             "Pork Wrangler",
                             "BBQ Pork Sliders",
                             "The Ringer",
                             "Best of Both Worlds",
                             "Smoked Chicken",
-                            "BBQ Beef Brisket Sliders",
+                            "BBQ Beef Brisket",
                             "Chicken Sliders",
                             "Slaw=py Pork"
                             ]
@@ -378,13 +378,13 @@ class OrderNowWindow:
             "0.00",
             "8.00",
             "10.00",
-            "10.00",
+            "11.00",
             "9.50",
             "9.00",
             "11.50",
             "9.00",
             "9.00",
-            "11.00",
+            "10.00",
             "9.00",
             "9.50"
         ]
