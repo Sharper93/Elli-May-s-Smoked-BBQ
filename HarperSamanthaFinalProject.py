@@ -118,7 +118,7 @@ class MenuWindow:
                                    fg=color_font, font=sub_label_font)
         taco_label_details.grid(row=24, column=2, columnspan=2, sticky="NSEW")
         # brisket tacos
-        brisket_tacos_label = Label(self.menu_frame, text="Brisket Tacos - 11.00",  fg=color_font, font=menu_font)
+        brisket_tacos_label = Label(self.menu_frame, text="BBQ Brisket Tacos - 11.00",  fg=color_font, font=menu_font)
         brisket_tacos_label.grid(row=25, column=2, sticky="E")
 
         # Pork Tacos
@@ -371,7 +371,7 @@ class OrderNowWindow:
                             "Smoked Chicken",
                             "BBQ Beef Brisket",
                             "Chicken Sliders",
-                            "Slaw=py Pork"
+                            "Slaw-py Pork"
                             ]
         # creating parallel list for sandwich prices
         sandwich_prices = [
