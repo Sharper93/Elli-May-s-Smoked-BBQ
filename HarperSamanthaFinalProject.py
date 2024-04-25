@@ -737,7 +737,7 @@ class MainWindow:
         # creating title for window
         self.master.title("Elli-May's Smoked BBQ")
         # setting window size
-        self.master.geometry('1050x500')
+        self.master.geometry('1050x800')
         # setting window to not be resized by user
         self.master.resizable(False, False)
         # setting background color
