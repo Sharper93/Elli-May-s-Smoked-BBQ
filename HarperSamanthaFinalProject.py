@@ -14,7 +14,7 @@ from tkinter import messagebox
 
 
 class MenuWindow:
-    # The menu for Elli-May's Smoked BBQ will display all available products with pricing information.
+    """The menu for Elli-May's Smoked BBQ will display all available products with pricing information."""
     def __init__(self):
         # creating new window for menu
         self.win2 = Toplevel()
@@ -178,6 +178,8 @@ class MenuWindow:
 
 
 class OrderNowWindow:
+    """ The Order Now Window Class will include all input fields, dropdowns, and checkboxes for users to select a
+    desired meal and place an order which displays a receipt"""
     def __init__(self):
         # creating new window for ordering
         self.win3 = Toplevel()
@@ -204,6 +206,10 @@ class OrderNowWindow:
         def receipt():
             """ the receipt function will validate input before displaying the order name, phone number, and
             meal details including price"""
+            # calling variables and function
+            sub_total, sales_tax, order_total = calculate_total()
+            calculate_total()
+
             # creating variables for all entry fields for input to be validated before receipt is printed
             first_name = first_name_entry.get()
             last_name = last_name_entry.get()
@@ -217,7 +223,7 @@ class OrderNowWindow:
             c_exp = card_exp_entry.get()
             c_cvv = card_cvv_entry.get()
 
-            # creating if statements to display a specific error message if input is missing or invalid.
+            # creating if statements to display a specific error message if an input is missing or invalid.
             if not only_letters(first_name):
                 messagebox.showerror("Error", "First Name must be only letters")
             elif not only_letters(last_name):
@@ -243,22 +249,59 @@ class OrderNowWindow:
             else:
                 # else statement to display a receipt message box if all input is valid
                 receipt_message = (f"Thank you for your order! Elli-May will see you soon!\n"
-                                   f"\n Name: {first_name_entry.get()} {first_name_entry.get()}"
+                                   f"\n Name: {first_name_entry.get()} {last_name_entry.get()}"
                                    f"\n Phone Number: {phone_number_entry.get()} "
                                    f"\n Sandwich: {sandwich_selected.get()} "
                                    f"\n Taco: {taco_selected.get()} "
-                                   f"\n Taco Toppings: {none_selected.get()} {pico_selected.get()} {cheddar_cheese.get()} "
-                                   f"{sour_cream.get()} {pickled_onions.get()} {jack_cheese.get()}"
+                                   f"\n Taco Toppings: {none_selected.get()} {pico_selected.get()} "
+                                   f"{cheddar_cheese.get()} {sour_cream.get()} {pickled_onions.get()} "
+                                   f"{jack_cheese.get()}"
                                    f"\n Combo: {combo_selected.get()} "
                                    f"\n Side: {side_selected.get()} "
                                    f"\n Drink: {drink_selected.get()}\n"
-                                   f"\n Sub Total: {sub_total} "
-                                   f"\n Tax: {sales_tax} "
-                                   f"\n Total: {meal_total}")
+                                   f"\n Sub Total: ${sub_total:.2f} "
+                                   f"\n Tax: ${sales_tax:.2f} "
+                                   f"\n Total: ${order_total:.2f}")
+                # show receipt in message box
                 messagebox.showinfo("Receipt", receipt_message)
+
+        def calculate_total():
+            """ calculate_total function to calculate total price of order """
+            # initializations of variables for meal calculations
+            sub_total = 0
+            sales_tax_rate = 0.07
+            # add sandwich price if selected
+            if sandwich_selected.get() != sandwich_options[0]:
+                sandwich_index = sandwich_options.index(sandwich_selected.get())
+                # convert list string to floating point number
+                sub_total += float(sandwich_prices[sandwich_index])
+            # add taco price if selected
+            if taco_selected.get() != taco_options[0]:
+                taco_index = taco_options.index(taco_selected.get())
+                # covert list string to floating point number
+                sub_total += float(taco_prices[taco_index])
+            # add combo price if needed
+            if combo_selected.get() == "Yes":
+                # add additional price for combo meal
+                sub_total += add_combo
+            # add side price if selected and combo is not selected
+            if side_selected.get() != side_options[0] and combo_selected.get() != "Yes":
+                side_index = side_options.index(side_selected.get())
+                # converting string price to floating point number
+                sub_total += float(side_prices[side_index])
+            # add drink price if selected and combo is not selected
+            if drink_selected.get() != drink_options[0] and combo_selected.get() != "Yes":
+                # adding cost to drink if needed
+                sub_total += add_drink
+            # calculate tax and total
+            sales_tax = sub_total * sales_tax_rate
+            order_total = sub_total + sales_tax
+
+            return sub_total, sales_tax, order_total
 
         def only_letters(input_text):
             """ only letters function will validate input to ensure each only contains letters and is not left blank"""
+            # reviewing all letter only input fields to ensure they do not include numbers and are not blank
             if input_text.isalpha() and len(first_name_entry.get()) > 0:
                 return True
             elif input_text.isalpha() and len(last_name_entry.get()) > 0:
@@ -290,6 +333,7 @@ class OrderNowWindow:
 
         def only_numbers(input_text):
             """only numbers function which will validate entry to only allow numbers and specified length"""
+            # reviewing all number input fields to ensure they are the required length and do no include letters
             if input_text.isdigit() and len(phone_number_entry.get()) == 10:
                 return True
             elif input_text.isdigit() and len(card_entry.get()) == 16:
@@ -331,7 +375,7 @@ class OrderNowWindow:
                             ]
         # creating parallel list for sandwich prices
         sandwich_prices = [
-            "0.00"
+            "0.00",
             "8.00",
             "10.00",
             "10.00",
@@ -371,7 +415,7 @@ class OrderNowWindow:
             "0.00",
             "11.00",
             "9.00",
-            "9.00",
+            "9.00"
         ]
         # declaring variable for taco_options list
         taco_selected = StringVar()
@@ -383,7 +427,6 @@ class OrderNowWindow:
         self.drop.grid(row=7, column=1, sticky="W", pady=5)
 
         # creating taco topping selection buttons
-
         # creating label for taco toppings
         topping_label = Label(self.order_frame, text="Taco Toppings:", font=label_font, fg=color_font)
         topping_label.grid(row=8, column=0, sticky="E")
@@ -454,6 +497,9 @@ class OrderNowWindow:
         combo_label = Label(self.order_frame, text="Make your meal a combo: ", font=label_font, fg=color_font)
         combo_label.grid(row=11, column=0, sticky="W")
 
+        # setting price for combo selection
+        add_combo = 2.00
+
         # declaring variable for combo options
         combo_selected = StringVar()
         combo_selected.set(combo_selected.get())
@@ -485,7 +531,7 @@ class OrderNowWindow:
             "3.00",
             "4.00",
             "3.50",
-            "4.00",
+            "4.00"
         ]
         # declaring variable for side_options list
         side_selected = StringVar()
@@ -514,13 +560,16 @@ class OrderNowWindow:
         drink_selected = StringVar()
         # setting default value of list
         drink_selected.set(drink_options[0])
+        # declaring price of adding a drink:
+        add_drink = 2.00
         # creating drop down menu for drinks
         self.drop = OptionMenu(self.order_frame, drink_selected, *drink_options)
         self.drop.config(fg=input_color, font=label_font)
         self.drop.grid(row=13, column=1, sticky="W", pady=5)
 
         # create cardholder first name input
-        order_cardholder_f_name = Label(self.order_frame, text="Cardholder First Name: ", font=label_font, fg=color_font)
+        order_cardholder_f_name = Label(self.order_frame, text="Cardholder First Name: ", font=label_font,
+                                        fg=color_font)
         order_cardholder_f_name.grid(row=14, column=0, sticky="E")
         # creating entry box for cardholder first name
         cardholder_f_name_entry = Entry(self.order_frame, width=20, borderwidth=3, font=label_font, fg=input_color)
@@ -561,7 +610,7 @@ class OrderNowWindow:
         zip_code_entry.grid(row=16, column=3, sticky="W")
 
         # create card number entry
-        order_card= Label(self.order_frame, text="Card Number: ", font=label_font, fg=color_font)
+        order_card = Label(self.order_frame, text="Card Number: ", font=label_font, fg=color_font)
         order_card.grid(row=17, column=0, sticky="E")
         # creating entry box for card number with validation for digits only
         card_entry = Entry(self.order_frame, width=16, borderwidth=3, font=label_font, fg=input_color)
@@ -575,23 +624,11 @@ class OrderNowWindow:
         card_exp_entry.grid(row=17, column=3, sticky="W")
 
         # create CVC entry
-        order_card_cvv= Label(self.order_frame, text="CVV: ", font=label_font, fg=color_font)
+        order_card_cvv = Label(self.order_frame, text="CVV: ", font=label_font, fg=color_font)
         order_card_cvv.grid(row=18, column=0, sticky="E")
         # creating entry box for card expiration date with validation for digits only
         card_cvv_entry = Entry(self.order_frame, width=3, borderwidth=3, font=label_font, fg=input_color)
         card_cvv_entry.grid(row=18, column=1, sticky="W")
-
-        # create subtotal display for receipt
-        sub_total = float(0)
-        sales_tax = float(.07)
-        meal_total = float(0)
-
-        # create tax display
-        self.sub_total = sub_total
-        self.sales_tax = sales_tax
-        self.total = sub_total * sales_tax
-
-        """ creating loop to calculate total price of order """
 
         # BUTTONS for order window
         # button to open location and hours page
@@ -610,7 +647,7 @@ class OrderNowWindow:
 
 
 class LocationHoursWindow:
-    # this window will display the location of food truck and hours of operation
+    """ Location and Hours window will display the location of food truck and hours of operation """
     def __init__(self):
         # creating new window for hours and location
         self.win = Toplevel()
@@ -692,7 +729,8 @@ class LocationHoursWindow:
 
 
 class MainWindow:
-    # this is the main window of application
+    """ Main window of application which will display the food truck name and buttons to access the location and hours,
+    menu, and order now windows of program """
     def __init__(self, master):
         self.master = master
         # creating title for window
