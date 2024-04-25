@@ -509,7 +509,8 @@ class OrderNowWindow:
                                          onvalue="Yes", offvalue="No", fg=input_color, font=label_font)
         self.combo_options.deselect()
         self.combo_options.grid(row=11, column=1, sticky="W")
-        self.combo_options = Checkbutton(self.order_frame, text="No", fg=input_color, font=label_font)
+        self.combo_options = Checkbutton(self.order_frame, text="No", variable=combo_selected, onvalue="No",
+                                         offvalue="Yes", fg=input_color, font=label_font)
         self.combo_options.deselect()
         self.combo_options.grid(row=11, column=2, sticky="W")
 
