@@ -426,6 +426,17 @@ class OrderNowWindow:
         self.drop.config(fg=input_color, font=label_font)
         self.drop.grid(row=7, column=1, sticky="W", pady=5)
 
+        def handle_check():
+            """handle_check function allow only none to be selected or the other topping options. The user
+            cannot have none and other options selected at the same time"""
+            if none_selected.get() == "No Toppings":
+                # if no toppings is selected, deselect all other options
+                pico_selected.set("")
+                cheddar_cheese.set("")
+                sour_cream.set("")
+                pickled_onions.set("")
+                jack_cheese.set("")
+
         # creating taco topping selection buttons
         # creating label for taco toppings
         topping_label = Label(self.order_frame, text="Taco Toppings:", font=label_font, fg=color_font)
@@ -443,52 +454,58 @@ class OrderNowWindow:
 
         # declaring variable as string for no topping option
         none_selected = StringVar()
-        none_selected.set(none_selected.get())
+        none_selected.set("")
         # declaring variable as string for pico option
         pico_selected = StringVar()
-        pico_selected.set(pico_selected.get())
+        pico_selected.set("")
         # declaring variable as string for cheddar cheese option
         cheddar_cheese = StringVar()
-        cheddar_cheese.set(cheddar_cheese.get())
+        cheddar_cheese.set("")
         # declaring variable as string for sour cream option
         sour_cream = StringVar()
-        sour_cream.set(sour_cream.get())
+        sour_cream.set("")
         # declaring variable as string for pickled onions option
         pickled_onions = StringVar()
-        pickled_onions.set(pickled_onions.get())
+        pickled_onions.set("")
         # declaring variable as string for jack cheese option
         jack_cheese = StringVar()
-        jack_cheese.set(jack_cheese.get())
+        jack_cheese.set("")
 
         # creating check buttons for each taco topping
         # check box for no toppings
         self.topping_options = Checkbutton(self.order_frame, text=topping_options[0], variable=none_selected,
-                                           onvalue="No Toppings", offvalue="", fg=input_color, font=label_font)
-        self.topping_options.deselect()
+                                           onvalue="No Toppings", offvalue="", command=handle_check, fg=input_color,
+                                           font=label_font)
+        self.topping_options.select()
         self.topping_options.grid(row=8, column=1, sticky="W")
         # check box for pico topping
         self.topping_options = Checkbutton(self.order_frame, text=topping_options[1], variable=pico_selected,
-                                           onvalue="Pico ", offvalue="", fg=input_color, font=label_font)
+                                           onvalue="Pico ", offvalue="", command=handle_check, fg=input_color,
+                                           font=label_font)
         self.topping_options.deselect()
         self.topping_options.grid(row=8, column=2, sticky="W")
         # check box for cheddar cheese
         self.topping_options = Checkbutton(self.order_frame, text=topping_options[2], variable=cheddar_cheese,
-                                           onvalue="Cheddar Cheese ", offvalue="", fg=input_color, font=label_font)
+                                           onvalue="Cheddar Cheese ", offvalue="", command=handle_check, fg=input_color,
+                                           font=label_font)
         self.topping_options.deselect()
         self.topping_options.grid(row=9, column=1, sticky="W")
         # check box for sour cream
         self.topping_options = Checkbutton(self.order_frame, text=topping_options[3], variable=sour_cream,
-                                           onvalue="Sour Cream ", offvalue="", fg=input_color, font=label_font)
+                                           onvalue="Sour Cream ", offvalue="", command=handle_check, fg=input_color,
+                                           font=label_font)
         self.topping_options.deselect()
         self.topping_options.grid(row=9, column=2, sticky="W")
         # check box for pickled red onions
         self.topping_options = Checkbutton(self.order_frame, text=topping_options[4], variable=pickled_onions,
-                                           onvalue="Pickled Red Onions ", offvalue="", fg=input_color, font=label_font)
+                                           onvalue="Pickled Red Onions ", offvalue="", command=handle_check,
+                                           fg=input_color, font=label_font)
         self.topping_options.deselect()
         self.topping_options.grid(row=10, column=1, sticky="W")
         # check boc for jack cheese
         self.topping_options = Checkbutton(self.order_frame, text=topping_options[5], variable=jack_cheese,
-                                           onvalue="Jack Cheese ", offvalue="", fg=input_color, font=label_font)
+                                           onvalue="Jack Cheese ", offvalue="", command=handle_check, fg=input_color,
+                                           font=label_font)
         self.topping_options.deselect()
         self.topping_options.grid(row=10, column=2, sticky="W")
 
