@@ -1,8 +1,8 @@
 """
 Created by Samantha Harper
-Last Modified 4.30.24
-This program is for Elli-May's Smoked BBQ. It will allow users to view the hours, location, menu and complete an
-order prior to visiting the food truck
+Last Modified 5.7.24
+This program is for Elli-May's Smoked BBQ food truck. It will allow customers to view our hours, location,
+menu and complete an order prior to visiting the food truck.
 """
 # importing tkinter
 from tkinter import *
@@ -473,7 +473,7 @@ class ORDERNOWWINDOW:
             phone_number = phone_number_entry.get()
             # validating entry to be digits and not blank
             if not only_numbers(phone_number, 10):
-                messagebox.showerror("Error", "Phone Number must be 10 digits long! !")
+                messagebox.showerror("Error", "Phone Number must be 10 digits long!")
                 return
             # creating cardholder first name variable
             cardholder_first_name = cardholder_f_name_entry.get()
@@ -489,6 +489,13 @@ class ORDERNOWWINDOW:
                 messagebox.showerror("Error", "The card holder's last name can only contain letters and "
                                               "cannot be blank! ")
                 return
+            # creating an address variable
+            c_address = address.get()
+            # validating entry to be letters and numbers and not blank
+            if c_address == "":
+                messagebox.showerror("Error", "Cardholder address must contain a valid street address "
+                                              "and cannot be blank!")
+                return
             # creating city variable
             city = city_entry.get()
             # validating entry to be letters and not blank
@@ -497,10 +504,10 @@ class ORDERNOWWINDOW:
                 return
             # creating state variable
             state = state_entry.get()
-            # validating entry to be letters and to be 2 characters
-            if not only_letters(state, 1):
-                messagebox.showerror("Error", "Your state must contain two letters and cannot be "
-                                              "blank!! ")
+            # validating entry to be letters and to be at least 2 characters
+            if not state_validate(state, 2):
+                messagebox.showerror("Error", "Your state must be the two letter abbreviation and it"
+                                              " cannot be blank!")
                 return
             # creating zip code variable
             zip_code = zip_code_entry.get()
@@ -580,6 +587,12 @@ class ORDERNOWWINDOW:
 
             return sub_total, sales_tax, order_total
 
+        def state_validate(input_text, length):
+            """ state_validate function to validate state input to be a specific length (2). This function was required
+            as the only letters function validates letter input fields to be greater than the specific length but not
+             equal to a specific length"""
+            return input_text.isalpha() and len(input_text) == length
+
         def only_letters(input_text, length):
             """ only letters function will validate input to ensure each only contains letters and is the
             not blank"""
@@ -635,7 +648,7 @@ class ORDERNOWWINDOW:
             "Smoked Chicken",
             "BBQ Beef Brisket",
             "Chicken Sliders",
-            "Slaw=py Pork"
+            "Slaw-py Pork"
         ]
         # creating parallel list for sandwich prices
         sandwich_prices = [
@@ -943,11 +956,16 @@ class ORDERNOWWINDOW:
 
 def main():
     """ Main function of the application. """
+    # setting TK for tkinter
     root = tk.Tk()
+    # setting title for root base
     root.title("HarperSamanthaFinalProject")
+    # calling main window class
     window = MAINWINDOW(root)
+    # calling functions from main window
     window.load_images()
     window.display_images()
+    # calling main loop to run
     root.mainloop()
 
 
